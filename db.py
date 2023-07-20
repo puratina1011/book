@@ -22,7 +22,7 @@ def get_hash(password, salt):
 
 
 def insert_user(user_name, password):
-    sql = "INSERT INTO user_sample VALUES(default, %s, %s, %s)"
+    sql = "INSERT INTO book_user VALUES(default, %s, %s, %s)"
 
     salt = get_salt()
     hashed_password = get_hash(password, salt)
@@ -46,7 +46,7 @@ def insert_user(user_name, password):
 
 
 def login(user_name, password):
-    sql = "SELECT hashed_password, salt FROM user_sample WHERE name = %s"
+    sql = "SELECT hashed_password, salt FROM book_user WHERE name = %s"
     flg = False
 
     try:
@@ -75,3 +75,19 @@ def login(user_name, password):
         connection.close()
 
     return flg
+def insert_book(isbn, title, author, publisher):
+    sql = "INSERT INTO books VALUES(default, %s, %s, %s,%s)"
+    connection = get_connection()
+    cursor = connection.cursor()
+    cursor.execute(
+        sql,
+        (
+            isbn,
+            title,
+            author,
+            publisher,
+        ),
+    )
+    connection.commit()
+    cursor.close()
+    connection.close()

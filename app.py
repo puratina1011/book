@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for,session
 import db,string,random
 from datetime import timedelta
-from book import book_bp
-from user import user_bp
+
 
 app = Flask(__name__)
 app.secret_key=''.join(random.choices(string.ascii_letters, k=256))
+
+
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -72,14 +74,20 @@ def register_exe():
         error = '登録に失敗しました。'
         return render_template('register.html', error=error)
 
-# Blueprintを登録
-app.register_blueprint(book_bp)
-app.register_blueprint(user_bp)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-   
+@app.route("/book_tou")
+def book_tou():
+    return render_template("book/book_tou.html")
+
+@app.route("/pantu", methods=["POST"])
+# 本の登録
+def pantu():
+    isbn = request.form.get("isbn")
+    title = request.form.get("title")
+    author = request.form.get("author")
+    publisher = request.form.get("publisher")
+    db.insert_book(isbn, title, author, publisher)
+    return render_template("book/pantu.html")
 
 
 
