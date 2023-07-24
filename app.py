@@ -89,7 +89,20 @@ def pantu():
     db.insert_book(isbn, title, author, publisher)
     return render_template("book/pantu.html")
 
+@app.route("/book_list")
+def book_list():
+    list = db.list_book()
+    return render_template("book/book_list.html", books=list)
 
+@app.route("/book_delete")
+def book_delete():
+    return render_template("book/book_delete.html")
+
+@app.route("/pantu2", methods=["POST"])
+def pantu2():
+    id = request.form.get("id")
+    db.book_delete(id)
+    return render_template("book/pantu2.html")
 
 if __name__ == '__main__':
     app.run(debug=True)

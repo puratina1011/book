@@ -91,3 +91,22 @@ def insert_book(isbn, title, author, publisher):
     connection.commit()
     cursor.close()
     connection.close()
+    
+def list_book():
+    connection = get_connection()
+    cursor = connection.cursor()
+    sql = "SELECT ISBN,title,author,publisher FROM books"
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    return rows
+
+def book_delete(id):
+    connection = get_connection()
+    cursor = connection.cursor()
+    sql = "delete from books where id=%s"
+    cursor.execute(sql, (id,))
+    connection.commit()
+    cursor.close()
+    connection.close()
