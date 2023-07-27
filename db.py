@@ -110,3 +110,20 @@ def book_delete(id):
     connection.commit()
     cursor.close()
     connection.close()
+    
+def search_book(title):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    sql = "SELECT * FROM books WHERE title LIKE %s"
+
+    title2 = "%" + title + "%"
+
+    cursor.execute(sql, (title2,))
+
+    rows = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    return rows

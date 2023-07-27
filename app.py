@@ -103,6 +103,19 @@ def pantu2():
     id = request.form.get("id")
     db.book_delete(id)
     return render_template("book/pantu2.html")
+    
+@app.route("/search_book_form")
+def search_book_form():
+    return render_template("book/search_book_form.html")
+
+
+@app.route("/search_book", methods=["POST"])
+def search_book():
+    title = request.form.get("title")
+
+    book_list = db.search_book(title)
+
+    return render_template("book/search_book.html", books=book_list)
 
 if __name__ == '__main__':
     app.run(debug=True)
